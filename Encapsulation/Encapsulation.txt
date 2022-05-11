@@ -25,8 +25,11 @@ Encapsulation sur 4 octets :
 	- 3 : Statut distance
 	- 4 : Statut variation de distance
 
-- Type de requête 3 : Tests [2][\][\]][\]
-	Test vibration
+- Type de requête 3 : Tests [2][\][...]][\]
+	3ème couche :
+	- 0 : Test vibration
+	- 1 : Test son
+	- 2 : Test dangerosité
 
 - Type de requête 4 : Modification des vibrations [3][...][...][...]
 	2ème couche :
