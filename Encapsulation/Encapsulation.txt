@@ -1,0 +1,70 @@
+Encapsulation sur 4 octets :
+
+1ère couche => type de requête
+2ème couche (opt.) => sous-catégorie de la requête
+3ème couche => donnée recherchée
+4ème couche (opt.) => valeur
+
+- Type de requête 1 : GPS [0][\][...][\]
+	3ème couche :
+	- 0 : Aller tout droit
+	- 1 : Garder la gauche
+	- 2 : Garder la droite
+	- 3 : Virage serré à gauche
+	- 4 : Virage serré à droite
+	- 5 : Virage à gauche
+	- 6 : Virage à droite
+	- 7 : Entrer dans le rond-point
+	- 8 : Quitter le rond-point
+
+- Type de requête 2 : Statuts [1][\][...][\]
+	3ème couche :
+	- 0 : Statut batterie
+	- 1 : Statut chaussage
+	- 2 : Statut dangerosité
+	- 3 : Statut distance
+	- 4 : Statut variation de distance
+
+- Type de requête 3 : Tests [2][\][\]][\]
+	Test vibration
+
+- Type de requête 4 : Modification des vibrations [3][...][...][...]
+	2ème couche :
+	- 0 : Modification des vibrations de détection d'obstacles
+		3ème couche :
+		- 1 : Modification des vibrations pour danger faible
+		- 2 : Modification des vibrations pour danger modéré
+		- 3 : Modification des vibrations pour danger élevé
+		- 4 : Modification des vibrations pour apparition d'obstacles
+			4ème couche :
+			Valeur comprise entre 0 et 255
+	- 1 : Modification des vibrations de détection sonore
+		3ème couche :
+		- 0 : Modification de la force de vibration
+			4ème couche :
+			Valeur comprise entre 0 et 255
+		- 1 : Modification du type de vibrations
+			4ème couche :
+			- 0 : Vibration simple
+			- 1 : Double vibration
+			- 2 : Triple vibration
+			- 3 : Vibration longue
+	- 2 : Modification des vibrations GPS
+		3ème couche :
+		- 0 : Modifier les vibrations pour aller tout droit
+		- 1 : Modifier les vibrations pour garder la gauche
+		- 2 : Modifier les vibrations pour garder la droite
+		- 3 : Modifier les vibrations pour un virage serré à gauche
+		- 4 : Modifier les vibrations pour un virage serré à droite
+		- 5 : Modifier les vibrations pour un virage à gauche
+		- 6 : Modifier les vibrations pour un virage à droite
+		- 7 : Modifier les vibrations pour entrer dans un rond-point
+		- 8 : Modifier les vibrations pour sortir d'un rond-point
+			4ème couche :
+			- 0 : Vibration simple
+			- 1 : Double vibration
+			- 2 : Triple vibration
+			- 4 : Quadruple vibation
+			- 5 : Vibration longue
+			- 6 : Vibration de l'avant vers l'arrière
+			- 7 : Vibration de l'arrière vers l'avant
