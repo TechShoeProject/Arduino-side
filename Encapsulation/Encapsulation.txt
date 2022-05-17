@@ -57,12 +57,16 @@ Encapsulation sur 4 octets :
 		- 0 : Modifier les vibrations pour aller tout droit
 		- 1 : Modifier les vibrations pour garder la gauche
 		- 2 : Modifier les vibrations pour garder la droite
-		- 3 : Modifier les vibrations pour un virage serré à gauche
-		- 4 : Modifier les vibrations pour un virage serré à droite
-		- 5 : Modifier les vibrations pour un virage à gauche
-		- 6 : Modifier les vibrations pour un virage à droite
-		- 7 : Modifier les vibrations pour entrer dans un rond-point
-		- 8 : Modifier les vibrations pour sortir d'un rond-point
+		- 3 : Modifier les vibrations pour rester à droite
+		- 4 : Modifier les vibrations pour rester à gauche
+		- 5 : Modifier les vibrations pour un virage serré à gauche
+		- 6 : Modifier les vibrations pour un virage serré à droite
+		- 7 : Modifier les vibrations pour un virage à droite
+		- 8 : Modifier les vibrations pour un virage à gauche
+		- 9 : Modifier les vibrations pour un virage à droite suivi directement d'un virage à gauche
+		- 10 : Modifier les vibrations pour un virage à gauche suivi directement d'un virage à droite
+		- 11 : Modifier les vibrations pour entrer dans un rond-point
+		- 12 : Modifier les vibrations pour sortir d'un rond-point
 			4ème couche :
 			- 0 : Vibration simple
 			- 1 : Double vibration
