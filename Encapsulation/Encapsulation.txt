@@ -17,13 +17,15 @@ Encapsulation sur 4 octets :
 	- 7 : Entrer dans le rond-point
 	- 8 : Quitter le rond-point
 
-- Type de requête 2 : Statuts [1][\][...][\]
+- Type de requête 2 : Statuts [1][\][...][...]
 	3ème couche :
 	- 0 : Statut batterie
 	- 1 : Statut chaussage
 	- 2 : Statut dangerosité
 	- 3 : Statut distance
 	- 4 : Statut variation de distance
+		4ème couche :
+		- Valeur comprise entre 0 et 255
 
 - Type de requête 3 : Tests [2][\][...]][\]
 	3ème couche :
@@ -75,3 +77,8 @@ Encapsulation sur 4 octets :
 			- 5 : Vibration longue
 			- 6 : Vibration de l'avant vers l'arrière
 			- 7 : Vibration de l'arrière vers l'avant
+
+- Type de requête 5 : Activation/désactivation [4][/][...][/]
+	3 ème couche :
+	- 0 : Toggle détection d'obstacles
+	- 1 : Toggle détection sonore
