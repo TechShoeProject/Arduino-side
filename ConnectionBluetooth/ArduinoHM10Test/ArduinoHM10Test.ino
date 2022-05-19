@@ -4,6 +4,7 @@ boolean ledStatus = false;
 bool connectedBT = false;
 int vibLowObs = 100, vibMediumObs = 175, vibHighObs = 255, vibPopObs =
 200;
+int d = 0;
 // defines pins numbers
 const int trigPin = 5;
 const int echoPin = 4;
@@ -14,6 +15,8 @@ float dangerosite, verif1, verif2, timeM, timeA;
 String Danger;
 
 #include <SoftwareSerial.h>
+#include <I2Cdev.h>
+#include <HMC5883L.h>
 
 SoftwareSerial mySerial(2, 3);
 
@@ -29,38 +32,39 @@ void loop() {
    while (mySerial.available() > 0) {
      // get incoming byte:
      inByte = mySerial.read();
-     switch(inByte){
-       case 3:
-         switch(mySerial.read()){
-           case 1:
-             switch(mySerial.read()){
-               case 1:
-                 vibLowObs = map(mySerial.read(),0,255,0,1023);
-                 Serial.println(vibLowObs);
-                 break;
-               case 2:
-                 vibMediumObs = map(mySerial.read(),0,255,0,1023);
-                 Serial.println(vibMediumObs);
-                 break;
-               case 3:
-                 vibHighObs = map(mySerial.read(),0,255,0,1023);
-                 break;
-               case 4:
-                 vibPopObs = map(mySerial.read(),0,255,0,1023);
-                 break;
-           break;
-             }
-         }
-         break;
-     case 4:
-        mySerial.write((byte)4);
-        mySerial.write((byte)0);
-     }
+     Serial.println(inByte);
+//     switch(inByte){
+//       case 3:
+//         switch(mySerial.read()){
+//           case 1:
+//             switch(mySerial.read()){
+//               case 1:
+//                 vibLowObs = map(mySerial.read(),0,255,0,1023);
+//                 Serial.println(vibLowObs);
+//                 break;
+//               case 2:
+//                 vibMediumObs = map(mySerial.read(),0,255,0,1023);
+//                 Serial.println(vibMediumObs);
+//                 break;
+//               case 3:
+//                 vibHighObs = map(mySerial.read(),0,255,0,1023);
+//                 break;
+//               case 4:
+//                 vibPopObs = map(mySerial.read(),0,255,0,1023);
+//                 break;
+//             }
+//           break;
+//         }
+//        break;
+//     case 4:
+//        break;
+//     }
    }
    //Obstacles
-   delay(1000);
-   Serial.println(mySerial.read());
-   mySerial.print(100);
+   delay(500);
+   //mySerial.print(100);
    delay(15);
-   mySerial.print(49);
+   mySerial.print(d);
+   d++;
+   //mySerial.print(49);
 }
