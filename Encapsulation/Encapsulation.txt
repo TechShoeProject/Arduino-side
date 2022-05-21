@@ -24,14 +24,17 @@ Encapsulation sur 4 octets :
 	- 2 : Statut dangerosité
 	- 3 : Statut distance
 	- 4 : Statut variation de distance
+	- 5 : Statut nombre de pas
 		4ème couche :
 		- Valeur comprise entre 0 et 255
 
-- Type de requête 3 : Tests [2][\][...]][\]
+- Type de requête 3 : Tests [2][\][...]][...]
 	3ème couche :
 	- 0 : Test vibration
 	- 1 : Test son
 	- 2 : Test dangerosité
+		4ème couche :
+		- Valeur comprise entre 0 et 255
 
 - Type de requête 4 : Modification des vibrations [3][...][...][...]
 	2ème couche :
@@ -42,12 +45,12 @@ Encapsulation sur 4 octets :
 		- 3 : Modification des vibrations pour danger élevé
 		- 4 : Modification des vibrations pour apparition d'obstacles
 			4ème couche :
-			Valeur comprise entre 0 et 255
+			- Valeur comprise entre 0 et 255
 	- 1 : Modification des vibrations de détection sonore
 		3ème couche :
 		- 0 : Modification de la force de vibration
 			4ème couche :
-			Valeur comprise entre 0 et 255
+			- Valeur comprise entre 0 et 255
 		- 1 : Modification du type de vibrations
 			4ème couche :
 			- 0 : Vibration simple
@@ -57,18 +60,17 @@ Encapsulation sur 4 octets :
 	- 2 : Modification des vibrations GPS
 		3ème couche :
 		- 0 : Modifier les vibrations pour aller tout droit
-		- 1 : Modifier les vibrations pour garder la gauche
-		- 2 : Modifier les vibrations pour garder la droite
-		- 3 : Modifier les vibrations pour rester à droite
-		- 4 : Modifier les vibrations pour rester à gauche
-		- 5 : Modifier les vibrations pour un virage serré à gauche
-		- 6 : Modifier les vibrations pour un virage serré à droite
-		- 7 : Modifier les vibrations pour un virage à droite
-		- 8 : Modifier les vibrations pour un virage à gauche
+		- 1 : Modifier les vibrations pour un virage à droite
+		- 2 : Modifier les vibrations pour un virage à gauche
+		- 3 : Modifier les vibrations pour garder la gauche
+		- 4 : Modifier les vibrations pour garder la droite
+		- 5 : Modifier les vibrations pour rester à droite
+		- 6 : Modifier les vibrations pour rester à gauche
+		- 7 : Modifier les vibrations pour un virage serré à gauche
+		- 8 : Modifier les vibrations pour un virage serré à droite
 		- 9 : Modifier les vibrations pour un virage à droite suivi directement d'un virage à gauche
 		- 10 : Modifier les vibrations pour un virage à gauche suivi directement d'un virage à droite
-		- 11 : Modifier les vibrations pour entrer dans un rond-point
-		- 12 : Modifier les vibrations pour sortir d'un rond-point
+		- 11 : Modifier les vibrations pour entrer puis sortir d'un rond-point
 			4ème couche :
 			- 0 : Vibration simple
 			- 1 : Double vibration
@@ -79,6 +81,6 @@ Encapsulation sur 4 octets :
 			- 7 : Vibration de l'arrière vers l'avant
 
 - Type de requête 5 : Activation/désactivation [4][/][...][/]
-	3 ème couche :
+	3ème couche :
 	- 0 : Toggle détection d'obstacles
 	- 1 : Toggle détection sonore
