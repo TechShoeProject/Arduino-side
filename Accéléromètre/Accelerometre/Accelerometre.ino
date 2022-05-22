@@ -1,36 +1,49 @@
-#include<Wire.h>
-const int MPU=0x68; 
-int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
-
-void setup(){
-  Wire.begin();
-  Wire.beginTransmission(MPU);
-  Wire.write(0x6B); 
-  Wire.write(0);    
-  Wire.endTransmission(true);
+#include "Wire.h"
+#include <MPU6050_light.h>
+MPU6050 mpu(Wire);
+ 
+void setup() {
   Serial.begin(9600);
+  Wire.begin();
+  mpu.begin();
+  mpu.calcGyroOffsets();
 }
-void loop(){
-  Wire.beginTransmission(MPU);
-  Wire.write(0x3B);  
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU,12,true);  
-  AcX=Wire.read()<<8|Wire.read();    
-  AcY=Wire.read()<<8|Wire.read();  
-  AcZ=Wire.read()<<8|Wire.read();  
-  GyX=Wire.read()<<8|Wire.read();  
-  GyY=Wire.read()<<8|Wire.read();  
-  GyZ=Wire.read()<<8|Wire.read();  
-  
-  Serial.print("Accelerometer: ");
-  Serial.print("X = "); Serial.print(AcX);
-  Serial.print(" | Y = "); Serial.print(AcY);
-  Serial.print(" | Z = "); Serial.println(AcZ); 
-  
-  Serial.print("Gyroscope: ");
-  Serial.print("X = "); Serial.print(GyX);
-  Serial.print(" | Y = "); Serial.print(GyY);
-  Serial.print(" | Z = "); Serial.println(GyZ);
-  Serial.println(" ");
-  delay(2000);
+ 
+void loop() {
+  mpu.update();
+  float tmp = mpu.getTemp();
+  float gyro[3] = {mpu.getGyroX(), mpu.getGyroY(), mpu.getGyroZ()};
+
+  if((gyro[0]>=10) || (gyro[1]>=10) || (gyro[2]>=10) || (gyro[0]<=-10) || (gyro[1]<=-10) || (gyro[2]<=-10)) {
+    Serial.write(1);
+    delay(15);
+    Serial.write(0);
+    delay(15);
+    Serial.write(1);
+    delay(15);
+    Serial.write(1);
+    delay(15);
+    Serial.println(1);
+
+    while ((gyro[0]>=10) || (gyro[1]>=10) || (gyro[2]>=10) || (gyro[0]<=-10) || (gyro[1]<=-10) || (gyro[2]<=-10)) {
+    }
+  }
+
+  else {
+    Serial.write(1);
+    delay(15);
+    Serial.write(0);
+    delay(15);
+    Serial.write(1);
+    delay(15);
+    Serial.write(0);
+    delay(15);
+    Serial.println(0);
+
+    while ((-10>gyro[0]<10) && (-10>gyro[1]<10) && (-10>gyro[2]<10)) {
+    }
+  }
+
+  delay(100);
+   
 }
