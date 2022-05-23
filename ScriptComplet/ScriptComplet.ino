@@ -1,5 +1,5 @@
-const int trigPin = 5;
-const int echoPin = 4;
+const int trigPin = 2;
+const int echoPin = 3;
 int inByte = 0;
 String DonneString = "";
 boolean ledStatus = false;
@@ -18,7 +18,7 @@ String Danger;
 #include <MPU6050_light.h>
 MPU6050 mpu(Wire);
 
-SoftwareSerial mySerial(2, 3);
+SoftwareSerial mySerial(4, 5);
 
 void setup() {
   pinMode(trigPin, OUTPUT);
@@ -90,14 +90,14 @@ void loop() {
         delay(205);
         switch(mySerial.read()){
           case 0:
-            mySerial.write(4);
+            mySerial.print(4);
             delay(15);
-            mySerial.write(0);
+            mySerial.print(0);
             break;
           case 1:
-            mySerial.write(4);
+            mySerial.print(4);
             delay(15);
-            mySerial.write(1);
+            mySerial.print(1);
         }
         break;
      }
@@ -149,22 +149,22 @@ void loop() {
   timeElapsed = millis() - lastMove;
   if (!Etatprec == Etatcourant) {
     if (Etatcourant == true) {
-      mySerial.write(1);
+      mySerial.print(1);
       delay(15);
-      mySerial.write(0);
+      mySerial.print(0);
       delay(15);
-      mySerial.write(1);
+      mySerial.print(1);
       delay(15);
-      mySerial.write(1);
+      mySerial.print(1);
     }
     else if (timeElapsed >= 120000) {
-      mySerial.write(1);
+      mySerial.print(1);
       delay(15);
-      mySerial.write(0);
+      mySerial.print(0);
       delay(15);
-      mySerial.write(1);
+      mySerial.print(1);
       delay(15);
-      mySerial.write(0);
+      mySerial.print(0);
       Etatprec = Etatcourant;
     }
   }
