@@ -104,6 +104,9 @@ void loop() {
    }
   
   //Obstacles
+  digitalWrite(moteurVibreurDevant, LOW);
+  digitalWrite(moteurVibreurDerriere, LOW);
+  digitalWrite(moteurVibreurMilieu, LOW);
   verif1 = distances[1] - distances[2];
   verif2 = distances[0] - distances[2];
   timeA = millis();
@@ -112,15 +115,23 @@ void loop() {
     if(dangerosite > 0 && distances[0] < 100){
       if(dangerosite > 3000){
         analogWrite(moteurVibreurDevant, vibPopObs);
+        analogWrite(moteurVibreurDerriere, vibPopObs);
+        analogWrite(moteurVibreurMilieu, vibPopObs);
       }
       else if(35 < dangerosite && dangerosite <= 55){
         analogWrite(moteurVibreurDevant, vibLowObs);
+        analogWrite(moteurVibreurDerriere, vibLowObs);
+        analogWrite(moteurVibreurMilieu, vibLowObs);
       }
       else if(55 < dangerosite && dangerosite <= 125){
         analogWrite(moteurVibreurDevant, vibMediumObs);
+        analogWrite(moteurVibreurDerriere, vibMediumObs);
+        analogWrite(moteurVibreurMilieu, vibMediumObs);
       }
       else if(125 < dangerosite && dangerosite <= 3000){
         analogWrite(moteurVibreurDevant, vibHighObs);
+        analogWrite(moteurVibreurDerriere, vibHighObs);
+        analogWrite(moteurVibreurMilieu, vibHighObs);
       }
     }
   }
