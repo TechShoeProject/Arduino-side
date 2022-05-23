@@ -52,9 +52,7 @@ void loop() {
     delay(15);
     Serial.write(0);
     }
-
   }
-
  Etatprec = Etatcourant;
  delay(100);
    
