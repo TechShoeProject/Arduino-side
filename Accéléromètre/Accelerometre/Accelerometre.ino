@@ -7,43 +7,55 @@ void setup() {
   Wire.begin();
   mpu.begin();
   mpu.calcGyroOffsets();
+
 }
  
 void loop() {
   mpu.update();
   float tmp = mpu.getTemp();
   float gyro[3] = {mpu.getGyroX(), mpu.getGyroY(), mpu.getGyroZ()};
+  bool Etatcourant;
+  static bool Etatprec;
 
-  if((gyro[0]>=10) || (gyro[1]>=10) || (gyro[2]>=10) || (gyro[0]<=-10) || (gyro[1]<=-10) || (gyro[2]<=-10)) {
-    Serial.write(1);
-    delay(15);
-    Serial.write(0);
-    delay(15);
-    Serial.write(1);
-    delay(15);
-    Serial.write(1);
-    delay(15);
-    Serial.println(1);
 
-    while ((gyro[0]>=10) || (gyro[1]>=10) || (gyro[2]>=10) || (gyro[0]<=-10) || (gyro[1]<=-10) || (gyro[2]<=-10)) {
-    }
+  if((abs(gyro[0])>=10) || (abs(gyro[1])>=10) || (abs(gyro[2])>=10)) {
+
+    Etatcourant = true;
+
   }
 
   else {
-    Serial.write(1);
-    delay(15);
-    Serial.write(0);
-    delay(15);
-    Serial.write(1);
-    delay(15);
-    Serial.write(0);
-    delay(15);
-    Serial.println(0);
 
-    while ((-10>gyro[0]<10) && (-10>gyro[1]<10) && (-10>gyro[2]<10)) {
-    }
+    Etatcourant = false;
+
   }
 
-  delay(100);
+  if (!Etatprec == Etatcourant) {
+
+    if (Etatcourant == true) {
+
+    Serial.write(1);
+    delay(15);
+    Serial.write(0);
+    delay(15);
+    Serial.write(1);
+    delay(15);
+    Serial.write(1);
+    }
+    else {
+
+    Serial.write(1);
+    delay(15);
+    Serial.write(0);
+    delay(15);
+    Serial.write(1);
+    delay(15);
+    Serial.write(0);
+    }
+
+  }
+
+ Etatprec = Etatcourant;
+ delay(100);
    
 }
