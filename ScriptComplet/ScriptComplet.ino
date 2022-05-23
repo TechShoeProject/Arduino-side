@@ -167,6 +167,7 @@ void loop() {
       mySerial.print(1);
       delay(15);
       mySerial.print(1);
+      Etatprec = Etatcourant;
     }
     else if (timeElapsed >= 120000) {
       mySerial.print(1);
