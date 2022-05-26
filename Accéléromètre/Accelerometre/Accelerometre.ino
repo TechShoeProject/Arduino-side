@@ -17,43 +17,50 @@ void loop() {
   bool Etatcourant;
   static bool Etatprec;
 
+  Serial.print(mpu.getAccX());
+  Serial.print(" ");
+  Serial.print(mpu.getAccY());
+  Serial.print(" ");
+  Serial.println(mpu.getAccZ());
+  
 
-  if((abs(gyro[0])>=10) || (abs(gyro[1])>=10) || (abs(gyro[2])>=10)) {
 
-    Etatcourant = true;
-
-  }
-
-  else {
-
-    Etatcourant = false;
-
-  }
-
-  if (!Etatprec == Etatcourant) {
-
-    if (Etatcourant == true) {
-
-    Serial.write(1);
-    delay(15);
-    Serial.write(0);
-    delay(15);
-    Serial.write(1);
-    delay(15);
-    Serial.write(1);
-    }
-    else {
-
-    Serial.write(1);
-    delay(15);
-    Serial.write(0);
-    delay(15);
-    Serial.write(1);
-    delay(15);
-    Serial.write(0);
-    }
-  }
- Etatprec = Etatcourant;
+//  if((abs(gyro[0])>=10) || (abs(gyro[1])>=10) || (abs(gyro[2])>=10)) {
+//
+//    Etatcourant = true;
+//
+//  }
+//
+//  else {
+//
+//    Etatcourant = false;
+//
+//  }
+//
+//  if (!Etatprec == Etatcourant) {
+//
+//    if (Etatcourant == true) {
+//
+//    Serial.write(1);
+//    delay(15);
+//    Serial.write(0);
+//    delay(15);
+//    Serial.write(1);
+//    delay(15);
+//    Serial.write(1);
+//    }
+//    else {
+//
+//    Serial.write(1);
+//    delay(15);
+//    Serial.write(0);
+//    delay(15);
+//    Serial.write(1);
+//    delay(15);
+//    Serial.write(0);
+//    }
+//  }
+// Etatprec = Etatcourant;
  delay(100);
    
 }

@@ -18,7 +18,7 @@ String Danger;
 #include <I2Cdev.h>
 #include <HMC5883L.h>
 
-SoftwareSerial mySerial(2, 3);
+SoftwareSerial mySerial(4, 5);
 
 void setup() {
    // start serial port at 9600 bps and wait for port to open:
