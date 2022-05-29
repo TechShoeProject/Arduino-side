@@ -17,11 +17,11 @@ void loop() {
   bool Etatcourant;
   static bool Etatprec;
 
-  Serial.print(mpu.getAccX());
+  Serial.print(gyro[0]);
   Serial.print(" ");
-  Serial.print(mpu.getAccY());
+  Serial.print(gyro[1]);
   Serial.print(" ");
-  Serial.println(mpu.getAccZ());
+  Serial.println(gyro[2]);
   
 
 
