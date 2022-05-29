@@ -912,7 +912,7 @@ void loop() {
   }
   
   //Obstacles
-  if(ObstacleActive && mpu.GetGyroX() < 10){
+  if(ObstacleActive && mpu.getGyroX() < 10){
     digitalWrite(moteurVibreurDevant, LOW);
     digitalWrite(moteurVibreurDerriere, LOW);
     digitalWrite(moteurVibreurMilieu, LOW);
