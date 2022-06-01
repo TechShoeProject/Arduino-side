@@ -1,15 +1,15 @@
-const int trigPin = 2;
-const int echoPin = 3;
+const int trigPin = 2, trigCote = 9, trigDevant = 7;
+const int echoPin = 3, echoCote = 10, echoDevant = 8;
 const int AO = A2, DO = 6;
 int inByte = 0;
 String DonneString = "";
 boolean ledStatus = false;
 bool connectedBT = false;
 int vibLowObs = 400, vibMediumObs = 700, vibHighObs = 1023, vibPopObs = 850, vibS = 500;
-int moteurVibreurDevant = 9, moteurVibreurDerriere = 10, moteurVibreurMilieu = 11;
-long duration;
-int distances[10];
-float dangerosite, verif1, verif2, timeM, timeA, timeElapsed, lastMove;
+int moteurVibreurDevant = 13, moteurVibreurDerriere = 11, moteurVibreurMilieu = 12;
+long duration, durationCote, durationDevant;
+int distances[10], distancesCote[10], distancesDevant[10];
+float dangerosite, dangerositeCote, dangerositeDevant, verif1, verif2, verif3, verif4, verif5, verif6, timeM, timeA, timeElapsed, lastMove;
 String Danger;
 
 int GPSManeuver = -1;
@@ -595,6 +595,10 @@ void goEnterThenExitRoundabout(){
 void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(trigCote, OUTPUT);
+  pinMode(echoCote, INPUT);
+  pinMode(trigDevant, OUTPUT);
+  pinMode(echoDevant, INPUT);
   pinMode(moteurVibreurDevant, OUTPUT);
   pinMode(moteurVibreurDerriere, OUTPUT);
   pinMode(moteurVibreurMilieu, OUTPUT);
@@ -608,16 +612,31 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-  distances[0] = duration * 0.034 / 2;
-  
   bool Etatcourant;
-  static bool Etatprec;
+  static bool Etatprec = false;
+  if(Etatprec == true){
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    distances[0] = duration * 0.034 / 2;
+    digitalWrite(trigCote, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigCote, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigCote, LOW);
+    durationCote = pulseIn(echoCote, HIGH);
+    distancesCote[0] = durationCote * 0.034 / 2;
+    digitalWrite(trigDevant, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigDevant, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigDevant, LOW);
+    durationDevant = pulseIn(echoDevant, HIGH);
+    distancesDevant[0] = durationDevant * 0.034 / 2;
+  }
 
   //Lecture des bytes
   while (mySerial.available() > 0) {
@@ -672,24 +691,24 @@ void loop() {
                 switch(mySerial.read()){
                   case 0:
                     for(int x = 0; x < 50; x++) {
-                      digitalWrite(trigPin, LOW);
+                      digitalWrite(trigDevant, LOW);
                       delayMicroseconds(2);
-                      digitalWrite(trigPin, HIGH);
+                      digitalWrite(trigDevant, HIGH);
                       delayMicroseconds(10);
-                      digitalWrite(trigPin, LOW);
-                      duration = pulseIn(echoPin, HIGH);
-                      distances[0] = duration * 0.034 / 2;
-                      verif1 = distances[1] - distances[2];
-                      verif2 = distances[0] - distances[2];
-                      if(verif1 - verif2 <= 5)
-                        dangerosite = -verif1 * 10 / distances[1] * 265;
+                      digitalWrite(trigDevant, LOW);
+                      durationDevant = pulseIn(echoDevant, HIGH);
+                      distancesDevant[0] = durationDevant * 0.034 / 2;
+                      verif5 = distancesDevant[1] - distancesDevant[2];
+                      verif6 = distancesDevant[0] - distancesDevant[2];
+                      if(verif5 - verif6 <= 5)
+                        dangerositeDevant = -verif5 * 10 / distancesDevant[1] * 265;
                       mySerial.print(1);
                       delay(15);
                       mySerial.print(0);
                       delay(15);
                       mySerial.print(2);
                       delay(15);
-                      mySerial.print(map(constrain(dangerosite, 0, 4500), 0, 4500, 0, 255));
+                      mySerial.print(map(constrain(dangerositeDevant, 0, 4500), 0, 4500, 0, 255));
                       delay(15);
                       mySerial.print(1);
                       delay(15);
@@ -697,7 +716,7 @@ void loop() {
                       delay(15);
                       mySerial.print(3);
                       delay(15);
-                      mySerial.print(constrain(distances[0], 0, 255));
+                      mySerial.print(constrain(distancesDevant[0], 0, 255));
                       delay(15);
                       mySerial.print(1);
                       delay(15);
@@ -705,12 +724,12 @@ void loop() {
                       delay(15);
                       mySerial.print(4);
                       delay(15);
-                      mySerial.print(constrain(verif2, 0, 255));
-                      Serial.println(dangerosite);
+                      mySerial.print(constrain(verif6, 0, 255));
+                      Serial.println(dangerositeDevant);
                       delay(100);
-                      distances[9] = 0;
+                      distancesDevant[9] = 0;
                       for(int x = 0; x<10;x++){
-                        distances[10-x] = distances[9-x];
+                        distancesDevant[10-x] = distancesDevant[9-x];
                       }
                     }
                     break;
@@ -870,7 +889,7 @@ void loop() {
    }
 
   //GPS
-  if(GPSManeuver != -1){
+  if(GPSManeuver != -1 && Etatprec == true){
     switch(GPSManeuver){
       case 0:
         goStraight();
@@ -912,35 +931,65 @@ void loop() {
   }
   
   //Obstacles
-  if(ObstacleActive && mpu.getGyroX() < 10){
-    digitalWrite(moteurVibreurDevant, LOW);
-    digitalWrite(moteurVibreurDerriere, LOW);
-    digitalWrite(moteurVibreurMilieu, LOW);
+  digitalWrite(moteurVibreurDevant, LOW);
+  digitalWrite(moteurVibreurDerriere, LOW);
+  digitalWrite(moteurVibreurMilieu, LOW);
+  if(ObstacleActive && Etatprec == true){
     verif1 = distances[1] - distances[2];
     verif2 = distances[0] - distances[2];
+    verif3 = distancesCote[1] - distancesCote[2];
+    verif4 = distancesCote[0] - distancesCote[2];
+    verif5 = distancesDevant[1] - distancesDevant[2];
+    verif6 = distancesDevant[0] - distancesDevant[2];
     timeA = millis();
     if(verif1 - verif2 <= 5){
       dangerosite = -verif1 * 10 / distances[1] * (timeA-timeM);
       if(dangerosite > 0 && distances[0] < 100){
         if(dangerosite > 3000){
-          analogWrite(moteurVibreurDevant, vibPopObs);
           analogWrite(moteurVibreurDerriere, vibPopObs);
-          analogWrite(moteurVibreurMilieu, vibPopObs);
         }
         else if(35 < dangerosite && dangerosite <= 55){
-          analogWrite(moteurVibreurDevant, vibLowObs);
           analogWrite(moteurVibreurDerriere, vibLowObs);
-          analogWrite(moteurVibreurMilieu, vibLowObs);
         }
         else if(55 < dangerosite && dangerosite <= 125){
-          analogWrite(moteurVibreurDevant, vibMediumObs);
           analogWrite(moteurVibreurDerriere, vibMediumObs);
-          analogWrite(moteurVibreurMilieu, vibMediumObs);
         }
         else if(125 < dangerosite && dangerosite <= 3000){
-          analogWrite(moteurVibreurDevant, vibHighObs);
           analogWrite(moteurVibreurDerriere, vibHighObs);
+        }
+      }
+    }
+    if(verif3 - verif4 <= 5){
+      dangerositeCote = -verif3 * 10 / distancesCote[1] * (timeA-timeM);
+      if(dangerositeCote > 0 && distancesCote[0] < 100){
+        if(dangerositeCote > 3000){
+          analogWrite(moteurVibreurMilieu, vibPopObs);
+        }
+        else if(35 < dangerositeCote && dangerositeCote <= 55){
+          analogWrite(moteurVibreurMilieu, vibLowObs);
+        }
+        else if(55 < dangerositeCote && dangerositeCote <= 125){
+          analogWrite(moteurVibreurMilieu, vibMediumObs);
+        }
+        else if(125 < dangerositeCote && dangerositeCote <= 3000){
           analogWrite(moteurVibreurMilieu, vibHighObs);
+        }
+      }
+    }
+    if(verif5 - verif6 <= 5 && mpu.getGyroX() < 10){
+      dangerositeDevant = -verif5 * 10 / distancesDevant[1] * (timeA-timeM);
+      if(dangerositeDevant > 0 && distancesDevant[0] < 100){
+        if(dangerositeDevant > 3000){
+          analogWrite(moteurVibreurDevant, vibPopObs);
+        }
+        else if(35 < dangerositeDevant && dangerositeDevant <= 55){
+          analogWrite(moteurVibreurDevant, vibLowObs);
+        }
+        else if(55 < dangerositeDevant && dangerositeDevant <= 125){
+          analogWrite(moteurVibreurDevant, vibMediumObs);
+        }
+        else if(125 < dangerositeDevant && dangerositeDevant <= 3000){
+          analogWrite(moteurVibreurDevant, vibHighObs);
         }
       }
     }
@@ -949,6 +998,16 @@ void loop() {
     distances[9] = 0;
     for(int x = 0; x<10;x++){
       distances[10-x] = distances[9-x];
+    }
+
+    distancesCote[9] = 0;
+    for(int x = 0; x<10;x++){
+      distancesCote[10-x] = distancesCote[9-x];
+    }
+
+    distancesDevant[9] = 0;
+    for(int x = 0; x<10;x++){
+      distancesDevant[10-x] = distancesDevant[9-x];
     }
   }
 
@@ -990,7 +1049,7 @@ void loop() {
   }
 
   //Détection sonore
-  if(SonoreActive){
+  if(SonoreActive && Etatprec == true){
     float Analog;
     int Digital;
     Analog = analogRead(AO);
