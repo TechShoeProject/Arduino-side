@@ -19,6 +19,10 @@ int straight = 0, turnRight = 0, turnLeft = 0, keepRight = 0, keepLeft = 0, stay
 
 bool ObstacleActive = true, SonoreActive = true;
 
+const int BATTERYPIN = A0; //pin de la batterie
+int bprec;
+float b;
+
 #include <SoftwareSerial.h>
 #include <I2Cdev.h>
 #include <HMC5883L.h>
@@ -1123,6 +1127,26 @@ void loop() {
             break;          
         }
     }
+  //Lecture pourcentage batterie
+  b = (analogRead(BATTERYPIN)/1024)*100;
+  if (b > 100) //max is 100%
+    b = 100;
+
+  else if (b < 0) //min is 0%
+    b = 0;
+
+  if (bprec != int(b))
+  {
+  Serial.println(1);
+  delay(15);
+  Serial.println(0);
+  delay(15);
+  Serial.println(0);
+  delay(15);
+  Serial.println(int(b));
+  delay(15);
+  }
+  bprec = int(b);
   }
   delay(200);
 }
